@@ -220,14 +220,8 @@ def getGapVel(filename,outfilename,number):
     plt.ylabel('lateral velocity, m/s')
     plt.savefig(outfilename + str(number) + ".jpg", dpi=160) #bbox_inches = 'tight'
     print outfilename, ' ', number, '.jpg has been saved!'
-    plt.close()   
-    
-
-###############################################################################
-    
-    
+    plt.close()
     return 0
-
 
 ###############################################################################
 def calSSE(CTFvelToRead):
@@ -253,9 +247,9 @@ def calSSE(CTFvelToRead):
 
 filename = 'deck_flatinlet_temperature_realgeo_directedOnly_iterating_final.ctf.gaps.out'
 getGapVel(filename, 'lateral velocities iteration final', 0)
-SSE = 0.008 #initiate as 20.
-correction = 0.001 # souce term increment starts from 0.01
-number = 248 # index for saving the pictures of lateral velocities
+SSE = 20 #initiate as 20.
+correction = 0.01 # souce term increment starts from 0.01
+number = 1 # index for saving the pictures of lateral velocities
 while SSE >= 0.0005 and correction >= 0.00001:
     number= number+1
     print 'current number is: ', number
