@@ -72,7 +72,6 @@ def CorrectCrossVel():
 def CrossFactorIteration(sourceIncrement, CTFvelToRead):
     #sourceIncrement = 0.01 
     CTFcrossFlow = CTFvelToRead + '.csv'
-#    basefilename = 'C:\\Users\\xiaorli\\CTF40\\simulations\\xflow_data'
     basefilename = 'xflow_data'
     gapno = 24
     
@@ -90,14 +89,7 @@ def CrossFactorIteration(sourceIncrement, CTFvelToRead):
     SSE = ErrSquare.sum().sum()  # overall difference between CTF and CFD
     SSEboundary = (ErrSquare.sum()[0], ErrSquare.sum()[1], ErrSquare.sum()[2], \
                    ErrSquare.sum()[3])
-    #SSEboundary = max(ErrSquare.iloc[:,0])
-    #print 'SSE                   Node0               Node1                  Node2\
-    #            Node3'
-    #print SSE, SSEboundary
-    
-#    f = open('SSE', 'a')
-#    f.write(str(SSE) + ',')
-#    f.close()        
+
     relativeErr = crossFlowCFD.divide(crossFlowCTF)
     relativeErr = relativeErr.replace([np.inf, -np.inf], [5, -5])
     #replace value does not matter, it occurs before the MV position
@@ -206,7 +198,6 @@ def getGapVel(filename,outfilename,number):
                     parsedtarget = target.split()
                     lateralVel = parsedtarget[6]
                     lateralVelocities[gapno - 1][inteval] = lateralVel
-    #lateralVelocities = np.flip(lateralVelocities, 1)
     #numpy version in docker container was too old to use np.flip, solution below
     lateralVelocities = np.fliplr(lateralVelocities)
     np.savetxt(outfilename + ".csv", lateralVelocities, delimiter=',')
@@ -259,8 +250,7 @@ def calSSE(CTFvelToRead):
 ###############################################################################
 
 
-#CorrectCrossVel() # flip the CFD cross velocity in certain gaps, do only once
-#filename = 'deck_distributed_inlet_temperature_realgeo_directedOnly_iterating.ctf.gaps.out'
+
 filename = 'deck_flatinlet_temperature_realgeo_directedOnly_iterating_final.ctf.gaps.out'
 getGapVel(filename, 'lateral velocities iteration final', 0)
 SSE = 0.008 #initiate as 20.
